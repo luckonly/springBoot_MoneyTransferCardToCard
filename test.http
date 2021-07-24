@@ -1,0 +1,15 @@
+POST http://localhost:5001/transfer2
+Content-Type: application/json
+
+{
+  "cardFromNumber": "aa",
+  "cardFromValidTill": "asd222f123",
+  "cardFromCVV": 345,
+  "cardToNumber": "4321432143214321",
+  "amountDTO": {
+    "value": 0,
+    "currency": "RUB"
+  }
+}
+
+###

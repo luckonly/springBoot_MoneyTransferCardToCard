@@ -3,6 +3,7 @@ package ru.netology.repository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import ru.netology.dto.TransactionDTO;
+import ru.netology.exception.ErrorInputData;
 import ru.netology.model.Card;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CardRepo {
 
     private Map<String, Card> cardRepo = new ConcurrentHashMap<>();
-    @Value("${test.enabled}")
+    @Value("${enabled.test}")
     private int testMode;
 
     private void init() {
@@ -53,29 +54,10 @@ public class CardRepo {
     }
 
     public Card getCardByNumber(String number) {
+        if (!cardRepo.containsKey(number)) {
+            throw new ErrorInputData("Card number is not valid");
+        }
         return cardRepo.get(number);
-    }
-
-    public Card getCardFrom(TransactionDTO transactionDTO) {
-
-        if (cardRepo.containsKey(transactionDTO.getCardFromNumber())) {
-            return cardRepo.get(transactionDTO.getCardFromNumber());
-        } else {
-            Card cardFrom = Card.getCardFromTransactionDTO(transactionDTO);
-            cardRepo.put(cardFrom.getNumber(), cardFrom);
-            return cardFrom;
-        }
-    }
-
-    public Card getCardTo(TransactionDTO transactionDTO) {
-
-        if (cardRepo.containsKey(transactionDTO.getCardToNumber())) {
-            return cardRepo.get(transactionDTO.getCardToNumber());
-        } else {
-            Card cardTo = Card.getCardToFromTransactionDTO(transactionDTO);
-            cardRepo.put(cardTo.getNumber(), cardTo);
-            return cardTo;
-        }
     }
 
 }

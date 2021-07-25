@@ -31,8 +31,9 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public String transfer(TransactionDTO transactionDTO) {
-        Card cardFrom = cardRepo.getCardFrom(transactionDTO);
-        Card cardTo = cardRepo.getCardTo(transactionDTO);
+        Card cardFrom = cardRepo.getCardByNumber(transactionDTO.getCardFromNumber());
+        Card cardTo = cardRepo.getCardByNumber(transactionDTO.getCardToNumber());
+
         if (transactionIsValid(cardFrom, cardTo, transactionDTO.getAmount())) {
             String idOperation = transactionRepo.addTransaction(transactionDTO);
             confirmRepo.addConfirmation(idOperation);

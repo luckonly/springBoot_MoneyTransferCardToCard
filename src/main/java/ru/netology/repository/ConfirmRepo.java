@@ -1,21 +1,19 @@
 package ru.netology.repository;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
+@Component
 public class ConfirmRepo {
-
-    private Map<String, String> confirmationRepo = new ConcurrentHashMap<>();
-
-    @Value("${test.enabled}")
+    @Value("${enabled.test}")
     private String testMode;
-    @Value("${test.verification.code}")
+    @Value("${verification.test.value}")
     private String verificationCode;
+    private Map<String, String> confirmationRepo = new ConcurrentHashMap<>();
 
     public ConfirmRepo() {
     }
@@ -33,7 +31,7 @@ public class ConfirmRepo {
             }
             return String.valueOf(code);
         } else {
-            return String.valueOf(verificationCode);
+            return String.valueOf(this.verificationCode);
         }
     }
 

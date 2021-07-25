@@ -1,13 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.service;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.mockito.Mockito;
-import ru.netology.springboot_moneytransfercardtocard.dto.AmountDTO;
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
-import ru.netology.springboot_moneytransfercardtocard.model.Card;
-import ru.netology.springboot_moneytransfercardtocard.repository.CardRepo;
-import ru.netology.springboot_moneytransfercardtocard.repository.ConfirmRepo;
-import ru.netology.springboot_moneytransfercardtocard.repository.TransactionRepo;
+package ru.netology.service;
 
 
 public class TransferServiceTest {

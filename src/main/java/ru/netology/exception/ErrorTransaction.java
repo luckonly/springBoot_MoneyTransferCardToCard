@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.exception;
+package ru.netology.exception;
 
 public class ErrorTransaction  extends RuntimeException {
     public ErrorTransaction(String msg) {

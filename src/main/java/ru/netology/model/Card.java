@@ -1,7 +1,7 @@
-package ru.netology.springboot_moneytransfercardtocard.model;
+package ru.netology.model;
 
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorInputData;
+import ru.netology.dto.TransactionDTO;
+import ru.netology.exception.ErrorInputData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

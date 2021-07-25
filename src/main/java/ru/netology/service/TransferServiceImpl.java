@@ -1,16 +1,18 @@
-package ru.netology.springboot_moneytransfercardtocard.service;
+package ru.netology.service;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import ru.netology.springboot_moneytransfercardtocard.dto.AmountDTO;
-import ru.netology.springboot_moneytransfercardtocard.dto.ConfirmationDTO;
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorConfirmation;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorTransaction;
-import ru.netology.springboot_moneytransfercardtocard.model.Card;
-import ru.netology.springboot_moneytransfercardtocard.repository.CardRepo;
-import ru.netology.springboot_moneytransfercardtocard.repository.ConfirmRepo;
-import ru.netology.springboot_moneytransfercardtocard.repository.TransactionRepo;
+import org.springframework.web.bind.annotation.RequestBody;
+import ru.netology.dto.AmountDTO;
+import ru.netology.dto.ConfirmationDTO;
+import ru.netology.dto.TransactionDTO;
+import ru.netology.exception.ErrorConfirmation;
+import ru.netology.exception.ErrorTransaction;
+import ru.netology.model.Card;
+import ru.netology.repository.CardRepo;
+import ru.netology.repository.ConfirmRepo;
+import ru.netology.repository.TransactionRepo;
+
 
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,7 +35,6 @@ public class TransferServiceImpl implements TransferService {
         Card cardTo = cardRepo.getCardTo(transactionDTO);
         if (transactionIsValid(cardFrom, cardTo, transactionDTO.getAmount())) {
             String idOperation = transactionRepo.addTransaction(transactionDTO);
-            logger.info(transactionDTO.getInfo());
             confirmRepo.addConfirmation(idOperation);
             return idOperation;
         }
@@ -57,7 +58,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public String confirmOperation(ConfirmationDTO confirmationDTO) throws ErrorConfirmation {
+    public String confirmOperation(@RequestBody ConfirmationDTO confirmationDTO) throws ErrorConfirmation {
         String repoConfirmationCode = confirmRepo.getConfirmationCodeByOperationId(confirmationDTO.getOperationId());
         if (repoConfirmationCode != null && repoConfirmationCode.equals(confirmationDTO.getCode())) {
             TransactionDTO transactionDTO = transactionRepo.getTransactionById(confirmationDTO.getOperationId());
@@ -65,6 +66,7 @@ public class TransferServiceImpl implements TransferService {
             makeTransferFromCardToCard( cardRepo.getCardByNumber(transactionDTO.getCardFromNumber()),
                                         cardRepo.getCardByNumber(transactionDTO.getCardToNumber()),
                                         transactionDTO.getAmount());
+            logger.info(transactionDTO.getInfo());
             return confirmationDTO.getOperationId();
         } else {
            throw new ErrorConfirmation("Confirmation code is not valid");

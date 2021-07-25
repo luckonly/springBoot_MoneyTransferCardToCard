@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.dto;
+package ru.netology.dto;
 
 public class ConfirmationDTO {
 

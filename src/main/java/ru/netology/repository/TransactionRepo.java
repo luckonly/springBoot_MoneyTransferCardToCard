@@ -1,7 +1,7 @@
-package ru.netology.springboot_moneytransfercardtocard.repository;
+package ru.netology.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
+import ru.netology.dto.TransactionDTO;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

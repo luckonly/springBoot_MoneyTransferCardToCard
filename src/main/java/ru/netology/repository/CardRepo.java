@@ -1,11 +1,10 @@
-package ru.netology.springboot_moneytransfercardtocard.repository;
+package ru.netology.repository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
-import ru.netology.springboot_moneytransfercardtocard.model.Card;
+import ru.netology.dto.TransactionDTO;
+import ru.netology.model.Card;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

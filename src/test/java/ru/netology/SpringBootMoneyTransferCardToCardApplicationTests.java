@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard;
+package ru.netology;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

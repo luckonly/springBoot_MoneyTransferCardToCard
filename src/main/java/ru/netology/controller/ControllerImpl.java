@@ -1,17 +1,18 @@
-package ru.netology.springboot_moneytransfercardtocard.controller;
+package ru.netology.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.netology.springboot_moneytransfercardtocard.dto.ConfirmationDTO;
-import ru.netology.springboot_moneytransfercardtocard.dto.ResponseDTO;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorConfirmation;
-import ru.netology.springboot_moneytransfercardtocard.dto.TransactionDTO;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorInputData;
-import ru.netology.springboot_moneytransfercardtocard.exception.ErrorTransaction;
-import ru.netology.springboot_moneytransfercardtocard.service.TransferService;
-import ru.netology.springboot_moneytransfercardtocard.service.TransferServiceImpl;
+import ru.netology.dto.TransactionDTO;
+import ru.netology.service.TransferService;
+import ru.netology.service.TransferServiceImpl;
+import ru.netology.dto.ConfirmationDTO;
+import ru.netology.dto.ResponseDTO;
+import ru.netology.exception.ErrorConfirmation;
+import ru.netology.exception.ErrorInputData;
+import ru.netology.exception.ErrorTransaction;
 
 import javax.validation.Valid;
+
 
 @RestController("/")
 public class ControllerImpl implements Controller {

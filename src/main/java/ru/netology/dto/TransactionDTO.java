@@ -1,13 +1,17 @@
-package ru.netology.springboot_moneytransfercardtocard.dto;
+package ru.netology.dto;
+
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Validated
 public class TransactionDTO {
-    @NotBlank
-    @Size(min = 16, max = 16)
+    @NotNull
+    @Size(min = 16)
     private String cardFromNumber;
-    @NotBlank
+    @NotNull
     @Size(min = 5, max = 5)
     private String cardFromValidTill;
     @NotBlank

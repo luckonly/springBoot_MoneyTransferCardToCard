@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.dto;
+package ru.netology.dto;
 
 import org.springframework.validation.annotation.Validated;
 

@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.repository;
+package ru.netology.repository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -13,9 +13,9 @@ public class ConfirmRepo {
     private Map<String, String> confirmationRepo = new ConcurrentHashMap<>();
 
     @Value("${test.enabled}")
-    private int testMode;
+    private String testMode;
     @Value("${test.verification.code}")
-    private int verificationCode;
+    private String verificationCode;
 
     public ConfirmRepo() {
     }
@@ -25,7 +25,7 @@ public class ConfirmRepo {
     }
 
     private synchronized String getNewCode() {
-        if (testMode == 0) {
+        if (testMode == "0") {
             Random random = new Random();
             int code = random.nextInt(9999);
             if (code < 1000) { //Проверочный код должен быть из 4-х цифр

@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard.exception;
+package ru.netology.exception;
 
 public class ErrorInputData extends RuntimeException {
     public ErrorInputData(String message) {

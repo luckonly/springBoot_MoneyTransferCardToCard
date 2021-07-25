@@ -1,4 +1,4 @@
-package ru.netology.springboot_moneytransfercardtocard;
+package ru.netology;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

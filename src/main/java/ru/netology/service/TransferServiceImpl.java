@@ -13,18 +13,23 @@ import ru.netology.repository.CardRepo;
 import ru.netology.repository.ConfirmRepo;
 import ru.netology.repository.TransactionRepo;
 
-
 import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class TransferServiceImpl implements TransferService {
 
-    private static final TransactionRepo transactionRepo = new TransactionRepo();
-    private static final ConfirmRepo confirmRepo = new ConfirmRepo();
-    private static final CardRepo cardRepo = new CardRepo();
+    private final TransactionRepo transactionRepo ;
+    private final ConfirmRepo confirmRepo;
+    private final CardRepo cardRepo;
 
     private final ReentrantLock locker = new ReentrantLock(true);
     private final static Logger logger = Logger.getLogger(TransferServiceImpl.class);
+
+    public TransferServiceImpl(TransactionRepo transactionRepo, ConfirmRepo confirmRepo, CardRepo cardRepo ) {
+        this.transactionRepo = transactionRepo;
+        this.confirmRepo = confirmRepo;
+        this.cardRepo = cardRepo;
+    }
 
     public void ServiceImpl() {
     }

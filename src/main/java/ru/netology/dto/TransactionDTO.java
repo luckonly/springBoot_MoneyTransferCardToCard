@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 @Validated
 public class TransactionDTO {
     @NotNull
-    @Size(min = 16)
+    @Size(min = 16, max = 16)
     private String cardFromNumber;
     @NotNull
     @Size(min = 5, max = 5)

@@ -17,7 +17,11 @@ import javax.validation.Valid;
 @RestController("/")
 public class ControllerImpl implements Controller {
 
-    private final TransferService service = new TransferServiceImpl();
+    private final TransferService service;
+
+    public ControllerImpl(TransferService service) {
+        this.service = service;
+    }
 
     @Override
     @PostMapping("transfer")

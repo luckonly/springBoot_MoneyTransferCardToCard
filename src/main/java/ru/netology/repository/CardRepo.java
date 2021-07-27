@@ -19,17 +19,20 @@ public class CardRepo {
     private int testMode;
 
     private void init() {
-        Card card1 = new Card("1111222233334444",
+        Card card1 = new Card(
+                "1111222233334444",
                 "11/22",
                 "234",
                 "RUB",
                 0L);
-        Card card2 = new Card("2222111133334444",
+        Card card2 = new Card(
+                "2222111133334444",
                 "08/22",
                 "324",
                 "RUB",
                 1000L);
-        Card card3 = new Card("1111333322224444",
+        Card card3 = new Card(
+                "1111333322224444",
                 "19/23",
                 "432",
                 "RUB",

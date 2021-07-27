@@ -22,7 +22,11 @@ public class TransactionDTO {
     private String cardToNumber;
     private AmountDTO amountDTO;
 
-    public TransactionDTO(String cardFromNumber, String cardFromValidTill, String cardFromCVV, String cardToNumber, AmountDTO amountDTO) {
+    public TransactionDTO(String cardFromNumber,
+                          String cardFromValidTill,
+                          String cardFromCVV,
+                          String cardToNumber,
+                          AmountDTO amountDTO) {
         this.cardFromNumber = cardFromNumber;
         this.cardFromValidTill = cardFromValidTill;
         this.cardFromCVV = cardFromCVV;

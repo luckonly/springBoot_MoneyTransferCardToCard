@@ -31,7 +31,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     @PostMapping("confirmOperation")
-    public String  confirmOperation(@RequestBody @Valid ConfirmationDTO confirmationDTO) throws ErrorConfirmation {
+    public String  confirmOperation(@RequestBody @Valid ConfirmationDTO confirmationDTO) {
         return service.confirmOperation(confirmationDTO);
     }
 

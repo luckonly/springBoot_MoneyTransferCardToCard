@@ -25,7 +25,10 @@ public class TransferServiceImpl implements TransferService {
     private final ReentrantLock locker = new ReentrantLock(true);
     private final static Logger logger = Logger.getLogger(TransferServiceImpl.class);
 
-    public TransferServiceImpl(TransactionRepo transactionRepo, ConfirmRepo confirmRepo, CardRepo cardRepo ) {
+    public TransferServiceImpl(
+            TransactionRepo transactionRepo,
+            ConfirmRepo confirmRepo,
+            CardRepo cardRepo ) {
         this.transactionRepo = transactionRepo;
         this.confirmRepo = confirmRepo;
         this.cardRepo = cardRepo;
@@ -47,7 +50,10 @@ public class TransferServiceImpl implements TransferService {
         return "";
     }
 
-    private void makeTransferFromCardToCard(Card cardFrom, Card cardTo, AmountDTO amount) {
+    private void makeTransferFromCardToCard(
+            Card cardFrom,
+            Card cardTo,
+            AmountDTO amount) {
         try {
             locker.lock();
             cardFrom.setBalance(cardFrom.getBalance() - amount.getValue());
@@ -57,7 +63,10 @@ public class TransferServiceImpl implements TransferService {
         }
     }
 
-    private boolean transactionIsValid(Card cardFrom, Card cardTo, AmountDTO amount) {
+    private boolean transactionIsValid(
+            Card cardFrom,
+            Card cardTo,
+            AmountDTO amount) {
         if (cardFrom.getNumber() == cardTo.getNumber()) throw new ErrorTransaction("Cannot make transaction between same cards");
         if (cardFrom.getBalance() < amount.getValue()) throw new ErrorTransaction("Not enough balance to close transaction");
         return true;
@@ -65,9 +74,13 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public String confirmOperation(@RequestBody ConfirmationDTO confirmationDTO) throws ErrorConfirmation {
-        String repoConfirmationCode = confirmRepo.getConfirmationCodeByOperationId(confirmationDTO.getOperationId());
-        if (repoConfirmationCode != null && repoConfirmationCode.equals(confirmationDTO.getCode())) {
-            TransactionDTO transactionDTO = transactionRepo.getTransactionById(confirmationDTO.getOperationId());
+
+        String dtoOperationId = confirmationDTO.getOperationId();
+        String dtoCode = confirmationDTO.getCode();
+        String repoCode = confirmRepo.getConfirmationCodeByOperationId(dtoOperationId);
+
+        if (repoCode != null && repoCode.equals(dtoCode)) {
+            TransactionDTO transactionDTO = transactionRepo.getTransactionById(dtoOperationId);
 
             makeTransferFromCardToCard( cardRepo.getCardByNumber(transactionDTO.getCardFromNumber()),
                                         cardRepo.getCardByNumber(transactionDTO.getCardToNumber()),

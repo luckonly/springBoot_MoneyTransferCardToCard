@@ -26,24 +26,19 @@ public class Card {
         }
     }
 
-    public static Card getCardFromTransactionDTO(TransactionDTO transactionDTO) {
-        return new Card(transactionDTO.getCardFromNumber(),
-                transactionDTO.getCardFromValidTill(),
-                transactionDTO.getCardFromCVV(),
-                transactionDTO.getAmount().getCurrency());
-    }
-
-    public static Card getCardToFromTransactionDTO(TransactionDTO transactionDTO) {
-        return new Card(transactionDTO.getCardToNumber());
-    }
-
-    public Card(String number, String validTill, String CVV) {
+    public Card(String number,
+                String validTill,
+                String CVV) {
         this.number = number;
         this.validTill = getDate(validTill);
         this.CVV = CVV;
     }
 
-    public Card(String number, String validTill, String CVV, String currency, long balance) {
+    public Card(String number,
+                String validTill,
+                String CVV,
+                String currency,
+                long balance) {
         this.number = number;
         this.validTill = getDate(validTill);
         this.CVV = CVV;
@@ -51,7 +46,10 @@ public class Card {
         this.balance = balance;
     }
 
-    public Card(String number, String validTill, String CVV, String currency) {
+    public Card(String number,
+                String validTill,
+                String CVV,
+                String currency) {
         this.number = number;
         this.validTill = getDate(validTill);
         this.CVV = CVV;
@@ -65,38 +63,6 @@ public class Card {
 
     public String getNumber() {
         return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Date getValidTill() {
-        return this.validTill;
-    }
-
-    public void setValidTillString(String validTill) {
-        this.validTill = getDate(validTill);
-    }
-
-    public void setValidTillDate(Date validTill) {
-        this.validTill = validTill;
-    }
-
-    public String getCVV() {
-        return CVV;
-    }
-
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 
     public long getBalance() {

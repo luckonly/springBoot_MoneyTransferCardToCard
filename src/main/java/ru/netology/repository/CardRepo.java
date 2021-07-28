@@ -38,12 +38,12 @@ public class CardRepo {
                 "RUB",
                 5000L);
 
-        List<Card> cardList = Arrays.asList(new Card[]{card1, card2, card3});
+        List<Card> cardList = List.of(card1, card2, card3);
         addCardList(cardList);
     }
 
     public CardRepo() {
-       init();
+       if (testMode == 1) init();
     }
 
     public void addCardList(List<Card> cardList) {

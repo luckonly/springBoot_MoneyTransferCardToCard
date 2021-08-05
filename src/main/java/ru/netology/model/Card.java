@@ -1,6 +1,5 @@
 package ru.netology.model;
 
-import ru.netology.dto.TransactionDTO;
 import ru.netology.exception.ErrorInputData;
 
 import java.text.ParseException;
@@ -71,6 +70,14 @@ public class Card {
 
     public void setBalance(long balance) {
         this.balance = balance;
+    }
+
+    public Date getValidTill() {
+        return validTill;
+    }
+
+    public String getCVV() {
+        return CVV;
     }
 
     @Override

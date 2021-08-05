@@ -2,16 +2,16 @@ package ru.netology.dto;
 
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Validated
 public class TransactionDTO {
-    @NotNull
+    @NotBlank
     @Size(min = 16, max = 16)
     private String cardFromNumber;
-    @NotNull
+    @NotBlank
     @Size(min = 5, max = 5)
     private String cardFromValidTill;
     @NotBlank
@@ -20,6 +20,7 @@ public class TransactionDTO {
     @NotBlank
     @Size(min = 16, max = 16)
     private String cardToNumber;
+    @Valid
     private AmountDTO amountDTO;
 
     public TransactionDTO(String cardFromNumber,
@@ -34,48 +35,56 @@ public class TransactionDTO {
         this.amountDTO = amountDTO;
     }
 
+    public TransactionDTO() {
+    }
+
     public String getCardFromNumber() {
         return cardFromNumber;
     }
 
-    public void setCardFromNumber(String cardFromNumber) {
+    public TransactionDTO setCardFromNumber(String cardFromNumber) {
         this.cardFromNumber = cardFromNumber;
+        return this;
     }
 
     public String getCardFromValidTill() {
         return cardFromValidTill;
     }
 
-    public void setCardFromValidTill(String cardFromValidTill) {
+    public TransactionDTO setCardFromValidTill(String cardFromValidTill) {
         this.cardFromValidTill = cardFromValidTill;
+        return this;
     }
 
     public String getCardFromCVV() {
         return cardFromCVV;
     }
 
-    public void setCardFromCVV(String cardFromCVV) {
+    public TransactionDTO setCardFromCVV(String cardFromCVV) {
         this.cardFromCVV = cardFromCVV;
+        return this;
     }
 
     public String getCardToNumber() {
         return cardToNumber;
     }
 
-    public void setCardToNumber(String cardToNumber) {
+    public TransactionDTO setCardToNumber(String cardToNumber) {
         this.cardToNumber = cardToNumber;
+        return this;
     }
 
-    public AmountDTO getAmount() {
-        return amountDTO;
+    public long getAmountValue() {
+        return amountDTO.getValue();
     }
 
-    public void setAmount(AmountDTO amountDTO) {
+    public TransactionDTO setAmount(AmountDTO amountDTO) {
         this.amountDTO = amountDTO;
+        return this;
     }
 
     public String getInfo() {
-        return "Transaction: from c: " + cardFromNumber + ", to card: " + cardToNumber + ", amount: " + this.getAmount().getValue();
+        return "Transaction: from c: " + cardFromNumber + ", to card: " + cardToNumber + ", amount: " + this.getAmountValue();
     }
 
 }

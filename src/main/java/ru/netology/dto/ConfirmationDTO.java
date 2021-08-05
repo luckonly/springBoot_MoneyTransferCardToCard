@@ -1,8 +1,14 @@
 package ru.netology.dto;
 
-public class ConfirmationDTO {
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotBlank;
+
+@Validated
+public class ConfirmationDTO {
+    @NotBlank
     private String operationId;
+    @NotBlank
     private String code;
 
     public ConfirmationDTO(String operationId, String code) {

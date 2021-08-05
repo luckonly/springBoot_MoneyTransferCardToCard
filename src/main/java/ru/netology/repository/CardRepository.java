@@ -2,19 +2,17 @@ package ru.netology.repository;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import ru.netology.dto.TransactionDTO;
 import ru.netology.exception.ErrorInputData;
 import ru.netology.model.Card;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class CardRepo {
+public class CardRepository {
 
-    private Map<String, Card> cardRepo = new ConcurrentHashMap<>();
+    private Map<String, Card> cardMap = new ConcurrentHashMap<>();
     @Value("${enabled.test}")
     private int testMode;
 
@@ -42,7 +40,7 @@ public class CardRepo {
         addCardList(cardList);
     }
 
-    public CardRepo() {
+    public CardRepository() {
        if (testMode == 1) init();
     }
 
@@ -53,14 +51,17 @@ public class CardRepo {
     }
 
     public void addCard(Card card) {
-        cardRepo.put(card.getNumber(), card);
+        if (cardMap.containsKey(card.getNumber())) {
+            throw new ErrorInputData("This card have been already added");
+        }
+        cardMap.put(card.getNumber(), card);
     }
 
     public Card getCardByNumber(String number) {
-        if (!cardRepo.containsKey(number)) {
+        if (!cardMap.containsKey(number)) {
             throw new ErrorInputData("Card number is not valid");
         }
-        return cardRepo.get(number);
+        return cardMap.get(number);
     }
 
 }

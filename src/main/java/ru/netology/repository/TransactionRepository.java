@@ -5,28 +5,26 @@ import ru.netology.dto.TransactionDTO;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Repository
-public class TransactionRepo {
+public class TransactionRepository {
 
-    private static int idCounter = 1;
-    private Map<String, TransactionDTO> transactionRepo = new ConcurrentHashMap<>();
+    private AtomicInteger idCounter = new AtomicInteger(1);
+    private Map<String, TransactionDTO> transactionMap = new ConcurrentHashMap<>();
 
-    public TransactionRepo() {
-    }
-
-    private synchronized static String getNewOperationId() {
-        return String.valueOf(idCounter++);
+    private String getNewOperationId() {
+        return String.valueOf(idCounter.getAndIncrement());
     }
 
     public String addTransaction(TransactionDTO transactionDTO) {
         String operationId = getNewOperationId();
-        transactionRepo.put(operationId, transactionDTO);
+        transactionMap.put(operationId, transactionDTO);
         return operationId;
     }
 
     public TransactionDTO getTransactionById(String operationId) {
-        return transactionRepo.get(operationId);
+        return transactionMap.get(operationId);
     }
 
 }

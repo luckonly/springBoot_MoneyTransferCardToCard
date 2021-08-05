@@ -3,61 +3,59 @@ package ru.netology.service;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.netology.dto.AmountDTO;
 import ru.netology.dto.ConfirmationDTO;
 import ru.netology.dto.TransactionDTO;
 import ru.netology.exception.ErrorConfirmation;
 import ru.netology.exception.ErrorTransaction;
 import ru.netology.model.Card;
-import ru.netology.repository.CardRepo;
-import ru.netology.repository.ConfirmRepo;
-import ru.netology.repository.TransactionRepo;
+import ru.netology.repository.CardRepository;
+import ru.netology.repository.ConfirmationRepository;
+import ru.netology.repository.TransactionRepository;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class TransferServiceImpl implements TransferService {
 
-    private final TransactionRepo transactionRepo ;
-    private final ConfirmRepo confirmRepo;
-    private final CardRepo cardRepo;
+    private final TransactionRepository transactionRepository;
+    private final ConfirmationRepository confirmRepository;
+    private final CardRepository cardRepository;
 
     private final ReentrantLock locker = new ReentrantLock(true);
     private final static Logger logger = Logger.getLogger(TransferServiceImpl.class);
 
     public TransferServiceImpl(
-            TransactionRepo transactionRepo,
-            ConfirmRepo confirmRepo,
-            CardRepo cardRepo ) {
-        this.transactionRepo = transactionRepo;
-        this.confirmRepo = confirmRepo;
-        this.cardRepo = cardRepo;
-    }
-
-    public void ServiceImpl() {
+            TransactionRepository transactionRepository,
+            ConfirmationRepository confirmRepository,
+            CardRepository cardRepository) {
+        this.transactionRepository = transactionRepository;
+        this.confirmRepository = confirmRepository;
+        this.cardRepository = cardRepository;
     }
 
     @Override
     public String transfer(TransactionDTO transactionDTO) {
-        Card cardFrom = cardRepo.getCardByNumber(transactionDTO.getCardFromNumber());
-        Card cardTo = cardRepo.getCardByNumber(transactionDTO.getCardToNumber());
+        Card cardFrom = cardRepository.getCardByNumber(transactionDTO.getCardFromNumber());
+        Card cardTo = cardRepository.getCardByNumber(transactionDTO.getCardToNumber());
 
-        if (transactionIsValid(cardFrom, cardTo, transactionDTO.getAmount())) {
-            String idOperation = transactionRepo.addTransaction(transactionDTO);
-            confirmRepo.addConfirmation(idOperation);
+        if (transactionIsValid(cardFrom, cardTo, transactionDTO.getAmountValue())) {
+            String idOperation = transactionRepository.addTransaction(transactionDTO);
+            confirmRepository.addConfirmation(idOperation);
             return idOperation;
         }
-        return "";
+        return null;
     }
 
     private void makeTransferFromCardToCard(
             Card cardFrom,
             Card cardTo,
-            AmountDTO amount) {
+            long amountValue) {
         try {
             locker.lock();
-            cardFrom.setBalance(cardFrom.getBalance() - amount.getValue());
-            cardTo.setBalance(cardTo.getBalance() + amount.getValue());
+            if (transactionIsValid(cardFrom, cardTo, amountValue)) {
+                cardFrom.setBalance(cardFrom.getBalance() - amountValue);
+                cardTo.setBalance(cardTo.getBalance() + amountValue);
+            }
         } finally {
             locker.unlock();
         }
@@ -66,9 +64,9 @@ public class TransferServiceImpl implements TransferService {
     private boolean transactionIsValid(
             Card cardFrom,
             Card cardTo,
-            AmountDTO amount) {
+            long amountValue) {
         if (cardFrom.getNumber() == cardTo.getNumber()) throw new ErrorTransaction("Cannot make transaction between same cards");
-        if (cardFrom.getBalance() < amount.getValue()) throw new ErrorTransaction("Not enough balance to close transaction");
+        if (cardFrom.getBalance() < amountValue) throw new ErrorTransaction("Not enough balance to close transaction");
         return true;
     }
 
@@ -77,14 +75,14 @@ public class TransferServiceImpl implements TransferService {
 
         String dtoOperationId = confirmationDTO.getOperationId();
         String dtoCode = confirmationDTO.getCode();
-        String repoCode = confirmRepo.getConfirmationCodeByOperationId(dtoOperationId);
+        String repoCode = confirmRepository.getConfirmationCodeByOperationId(dtoOperationId);
 
         if (repoCode != null && repoCode.equals(dtoCode)) {
-            TransactionDTO transactionDTO = transactionRepo.getTransactionById(dtoOperationId);
+            TransactionDTO transactionDTO = transactionRepository.getTransactionById(dtoOperationId);
 
-            makeTransferFromCardToCard( cardRepo.getCardByNumber(transactionDTO.getCardFromNumber()),
-                                        cardRepo.getCardByNumber(transactionDTO.getCardToNumber()),
-                                        transactionDTO.getAmount());
+            makeTransferFromCardToCard( cardRepository.getCardByNumber(transactionDTO.getCardFromNumber()),
+                                        cardRepository.getCardByNumber(transactionDTO.getCardToNumber()),
+                                        transactionDTO.getAmountValue());
             logger.info(transactionDTO.getInfo());
             return confirmationDTO.getOperationId();
         } else {

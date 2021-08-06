@@ -20,7 +20,6 @@ public class TransferServiceImpl implements TransferService {
     private final TransactionRepository transactionRepository;
     private final ConfirmationRepository confirmRepository;
     private final CardRepository cardRepository;
-
     private final ReentrantLock locker = new ReentrantLock(true);
     private final static Logger logger = Logger.getLogger(TransferServiceImpl.class);
 

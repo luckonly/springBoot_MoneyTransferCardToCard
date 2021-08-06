@@ -9,10 +9,10 @@ import java.util.Objects;
 
 public class Card {
 
-    private String number;
-    private Date validTill;
-    private String CVV;
-    private String currency;
+    private final String number;
+    private final Date validTill;
+    private final String CVV;
+    private final String currency;
     private long balance;
 
     private final static SimpleDateFormat simpleDateFormatter = new SimpleDateFormat("MM/yy");
@@ -27,14 +27,6 @@ public class Card {
 
     public Card(String number,
                 String validTill,
-                String CVV) {
-        this.number = number;
-        this.validTill = getDate(validTill);
-        this.CVV = CVV;
-    }
-
-    public Card(String number,
-                String validTill,
                 String CVV,
                 String currency,
                 long balance) {
@@ -43,21 +35,6 @@ public class Card {
         this.CVV = CVV;
         this.currency = currency;
         this.balance = balance;
-    }
-
-    public Card(String number,
-                String validTill,
-                String CVV,
-                String currency) {
-        this.number = number;
-        this.validTill = getDate(validTill);
-        this.CVV = CVV;
-        this.currency = currency;
-        this.balance = balance;
-    }
-
-    public Card(String number) {
-        this.number = number;
     }
 
     public String getNumber() {
